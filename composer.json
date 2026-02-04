@@ -1,0 +1,41 @@
+{
+  "name": "baks-dev/telegram-support",
+  "description": "Модуль Telegram бота",
+  "homepage": "https://github.com/baks-dev/telegram-support",
+  "keywords": [
+    "symfony",
+    "bundle",
+    "library",
+    "module",
+    "plugin",
+    "telegram",
+    "support",
+    "baksdev"
+  ],
+  "license": "MIT",
+  "type": "symfony-bundle",
+  "authors": [
+    {
+      "name": "Baks Development",
+      "email": "admin@baks.dev"
+    }
+  ],
+  "require": {
+    "php": ">=8.4",
+    "baks-dev/core": "^7.3"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "BaksDev\\Telegram\\Support\\": ""
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
+  }
+}
