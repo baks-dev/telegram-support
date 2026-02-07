@@ -1,0 +1,4 @@
+telegram:
+  support:
+    name: 'Telegram Support'
+    desc: 'Тип профиля Telegram Support'
