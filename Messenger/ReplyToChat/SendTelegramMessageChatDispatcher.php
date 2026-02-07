@@ -102,47 +102,46 @@ final readonly class SendTelegramMessageChatDispatcher
             return;
         }
 
-        
+
         /** @var SupportDTO $supportDTO */
-        $supportDTO = $supportEvent->getDto(SupportDTO::class);
-        $supportInvariableDTO = $supportDTO->getInvariable();
+        $SupportDTO = $supportEvent->getDto(SupportDTO::class);
+        $supportInvariableDTO = $SupportDTO->getInvariable();
 
         if(is_null($supportInvariableDTO))
         {
             return;
         }
 
-        
         /** @var SupportMessageDTO $message */
-        $message = $supportDTO->getMessages()->last();
+        $SupportMessageDTO = $supportDTO->getMessages()->last();
 
         // проверяем наличие внешнего ID - для наших ответов его быть не должно
-        if($message->getExternal() !== null)
+        if($SupportMessageDTO->getExternal() !== null)
         {
             return;
         }
 
-        $messageText = $message->getMessage();
+        $messageText = $SupportMessageDTO->getMessage();
 
-
-        $result = $this->sendMessageRequest
+        $isSendMessage = $this->sendMessageRequest
             ->chanel($supportInvariableDTO->getTicket())
             ->message($messageText)
             ->send();
 
-
-        if(false === $result)
+        if(false === $isSendMessage)
         {
-            $this->logger->warning(
-                'Повтор выполнения сообщения через 1 минут',
-                [self::class.':'.__LINE__],
+            $this->logger->critical(
+                sprintf(
+                    'telegram-support: Ошибка при отправке сообщения в чат %s. Пробуем повторить позже',
+                    $supportInvariableDTO->getTicket(),
+                ),
+                [self::class.':'.__LINE__, var_export($message, true)],
             );
 
             $this->messageDispatch
                 ->dispatch(
                     message: $message,
-                    // задержка 1 минуту для отправки сообщение в существующий чат по его идентификатору
-                    stamps: [new MessageDelay('1 minutes')],
+                    stamps: [new MessageDelay('30 seconds')],
                     transport: 'telegram-support',
                 );
         }
