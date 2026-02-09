@@ -60,8 +60,6 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final readonly class GetTelegramCustomerMessageDispatcher
 {
     public function __construct(
-        #[Autowire(env: 'PROJECT_PROFILE')] private ?string $projectProfile = null,
-        #[Target('telegramSupportLogger')] private LoggerInterface $Logger,
         private DeduplicatorInterface $Deduplicator,
         private CurrentSupportEventByTicketInterface $CurrentSupportEventByTicketRepository,
         private FindExistExternalMessageByIdInterface $FindExistExternalMessageByIdRepository,
@@ -69,6 +67,8 @@ final readonly class GetTelegramCustomerMessageDispatcher
         private ActiveProfileByAccountTelegramInterface $ActiveProfileByAccountTelegramRepository,
         private UserTokenStorageInterface $UserTokenStorage,
         private ActiveUserTelegramAccountInterface $ActiveUserTelegramAccount,
+        #[Target('telegramSupportLogger')] private LoggerInterface $Logger,
+        #[Autowire(env: 'PROJECT_PROFILE')] private ?string $projectProfile = null,
     ) {}
 
     public function __invoke(TelegramEndpointMessage $message): void
