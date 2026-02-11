@@ -76,7 +76,7 @@ final readonly class SendTelegramMessageChatDispatcher
         if(false === ($supportEvent instanceof SupportEvent))
         {
             $this->logger->critical(
-                'Ошибка получения события по идентификатору :'.$message->getId(),
+                'telegram-support: Ошибка получения события по идентификатору :'.$message->getId(),
                 [self::class.':'.__LINE__],
             );
 
